@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ferdiunal/moon/app/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type PersonalAccessToken struct {
 	ID         uint64       `gorm:"autoIncrement;primaryKey"`
-	UserId     models.User  `gorm:"foreignkey:id;references:user_id;constraint:OnUpdate:SET NULL,OnDelete:CASCADE;"`
+	UserId     uint64       `gorm:"foreignkey:id;references:user_id;constraint:OnUpdate:SET NULL,OnDelete:CASCADE;"`
 	Name       string       `gorm:"uniqueIndex;size:255"`
 	Token      string       `gorm:"uniqueIndex;size:64"`
 	Abilities  []string     `gorm:"type:json"`
