@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
+	"github/ferdiunal/venus"
 	"time"
 
 	"github.com/google/uuid"
@@ -49,17 +50,17 @@ func (m *PersonalAccessToken) BeforeCreate(tx *gorm.DB) (err error) {
 	return nil
 }
 
-func (m *PersonalAccessToken) GetToken() string {
-	return fmt.Sprintf("%v|%v", m.ID, m.HashedToken())
+func (m *PersonalAccessToken) GetToken(venus venus.VenusInterface) string {
+	return fmt.Sprintf("%v|%v", venus.Encode(int64(m.ID)), m.HashedToken())
 }
 
-func (m *PersonalAccessToken) GetResult() *MarsToken {
-	return NewMarsToken(m)
+func (m *PersonalAccessToken) GetResult(venus venus.VenusInterface) *MarsToken {
+	return NewMarsToken(m, venus)
 }
 
-func NewMarsToken(accessToken *PersonalAccessToken) *MarsToken {
+func NewMarsToken(accessToken *PersonalAccessToken, venus venus.VenusInterface) *MarsToken {
 	return &MarsToken{
-		AccessToken: accessToken.GetToken(),
+		AccessToken: accessToken.GetToken(venus),
 		ExpireIn:    accessToken.ExpireAt,
 		Abilities:   accessToken.Abilities,
 	}
