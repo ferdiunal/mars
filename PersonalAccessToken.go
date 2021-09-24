@@ -29,7 +29,7 @@ type PersonalAccessToken struct {
 type MarsToken struct {
 	AccessToken string
 	ExpiresIn   time.Time
-	Abilities   []string
+	Abilities   datatypes.JSON
 }
 
 func (m *PersonalAccessToken) HashedToken() string {
@@ -67,14 +67,14 @@ func NewMarsToken(accessToken *PersonalAccessToken, venus venus.VenusInterface) 
 		Abilities:   accessToken.Abilities,
 	}
 }
-func NewPersonalAccessToken(userId uint64, name string, abilities []string) *PersonalAccessToken {
+func NewPersonalAccessToken(userId uint64, name string, abilities string) *PersonalAccessToken {
 
 	if len(abilities) == 0 {
-		abilities = []string{"*"}
+		abilities = "*"
 	}
 	return &PersonalAccessToken{
 		UserId:    userId,
 		Name:      name,
-		Abilities: abilities,
+		Abilities: datatypes.JSON([]byte(fmt.Sprintf(`[%v]`, abilities))),
 	}
 }
