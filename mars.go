@@ -2,7 +2,8 @@ package mars
 
 import (
 	"errors"
-	"github/ferdiunal/venus"
+
+	"github.com/ferdiunal/venus"
 
 	"gorm.io/gorm"
 )
@@ -52,10 +53,16 @@ func (m *Mars) RevokeToken(userId uint64, tokenId uint64, token string) error {
 	return nil
 }
 
-func NewMars(db *gorm.DB, salt string, len int) MarsInterface {
-	hashids := venus.New(salt, len)
+type MarsConfig struct {
+	Db   *gorm.DB
+	Len  int
+	Salt string
+}
+
+func NewMars(config *MarsConfig) MarsInterface {
+	hashids := venus.New(config.Salt, config.Len)
 	return &Mars{
-		db:    db,
+		db:    config.Db,
 		venus: hashids,
 	}
 }

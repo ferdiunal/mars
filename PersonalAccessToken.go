@@ -4,8 +4,9 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
-	"github/ferdiunal/venus"
 	"time"
+
+	"github.com/ferdiunal/venus"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
