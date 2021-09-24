@@ -7,22 +7,23 @@ import (
 	"time"
 
 	"github.com/ferdiunal/venus"
+	"gorm.io/datatypes"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type PersonalAccessToken struct {
-	ID         uint64       `gorm:"autoIncrement;primaryKey"`
-	UserId     uint64       `gorm:"foreignkey:id;references:user_id;constraint:OnUpdate:SET NULL,OnDelete:CASCADE;"`
-	Name       string       `gorm:"uniqueIndex;size:255"`
-	Token      string       `gorm:"uniqueIndex;size:64"`
-	Abilities  []string     `gorm:"type:json"`
-	LastUsedAt sql.NullTime `gorm:"type:timestamp;"`
-	ExpireAt   time.Time    `gorm:"type:timestamp;"`
-	CreatedAt  time.Time    `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP"`
-	UpdatedAt  time.Time    `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
-	DeletedAt  sql.NullTime `gorm:"type:timestamp;"`
+	ID         uint64         `gorm:"autoIncrement;primaryKey"`
+	UserId     uint64         `gorm:"foreignkey:id;references:user_id;constraint:OnUpdate:SET NULL,OnDelete:CASCADE;"`
+	Name       string         `gorm:"uniqueIndex;size:255"`
+	Token      string         `gorm:"uniqueIndex;size:64"`
+	Abilities  datatypes.JSON `gorm:"type:json"`
+	LastUsedAt sql.NullTime   `gorm:"type:timestamp;"`
+	ExpireAt   time.Time      `gorm:"type:timestamp;"`
+	CreatedAt  time.Time      `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP"`
+	UpdatedAt  time.Time      `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	DeletedAt  sql.NullTime   `gorm:"type:timestamp;"`
 }
 
 type MarsToken struct {
