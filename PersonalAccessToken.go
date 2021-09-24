@@ -27,7 +27,7 @@ type PersonalAccessToken struct {
 
 type MarsToken struct {
 	AccessToken string
-	ExpireIn    time.Time
+	ExpiresIn   time.Time
 	Abilities   []string
 }
 
@@ -62,7 +62,7 @@ func (m *PersonalAccessToken) GetResult(venus venus.VenusInterface) *MarsToken {
 func NewMarsToken(accessToken *PersonalAccessToken, venus venus.VenusInterface) *MarsToken {
 	return &MarsToken{
 		AccessToken: accessToken.GetToken(venus),
-		ExpireIn:    accessToken.ExpireAt,
+		ExpiresIn:   accessToken.ExpireAt,
 		Abilities:   accessToken.Abilities,
 	}
 }
